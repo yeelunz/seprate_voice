@@ -12,16 +12,18 @@ def separate_voice(input_file, output_file):
         print(output_file_path, "Failed")
         return
 
-    # separate the voice
+    # separate the voice and compress it to 128k
     separator = Separator('spleeter:2stems',multiprocess=False)
-    separator.separate_to_file(input_file_path,output_file_path)
-    
+    separator.separate_to_file(input_file_path,output_file_path,bitrate='128k',codec='mp3')
+
+    # compress the output file
+    # os.system('ffmpeg -i ' + output_file_path + '/vocals.wav -c:a libmp3lame -b:a 128k ' + output_file_path + '/vocals.mp3')
+
 
 # get all file in input folder
 filenames = os.listdir(os.path.join(os.path.dirname(__file__), 'input'))
 # get file in output folder
 output_filenames = os.listdir(os.path.join(os.path.dirname(__file__), 'output'))
-
 
 for i,f in enumerate(filenames):
     print(i, '/', len(filenames))
